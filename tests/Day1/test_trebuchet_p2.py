@@ -17,6 +17,7 @@ lines_vals = (
     ("4nineeightseven2", 42),
     ("zoneight234", 14),
     ("7pqrstsixteen", 76),
+    ("oneight", 18),
 )
 
 @pytest.mark.parametrize(

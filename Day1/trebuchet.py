@@ -1,17 +1,15 @@
 def line_value(line):
     num_dict = {"one": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6", "seven": "7", "eight": "8", "nine": "9"}
-    idx = 0
-    while idx < len(line):
-        for key in num_dict.keys():
-            if line[idx:].startswith(key):
-                line = line[:idx] + num_dict[key] + line[idx + len(key):]
-                idx += 1
-                break
+    line_nums = []
+    for idx in range(len(line)):
+        if line[idx].isnumeric():
+            line_nums.append((idx, line[idx]))
         else:
-            idx += 1
-
-    line_nums = list(val for val in line if val.isnumeric())
-    num = line_nums[0] + line_nums[-1]
+            for key, val in num_dict.items():
+                if line[idx:idx + len(key)] == key:
+                    line_nums.append((idx, val))
+    line_nums.sort()
+    num = line_nums[0][1] + line_nums[-1][1]
     return int(num)
 
 def lines_result(lines):
