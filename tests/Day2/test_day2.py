@@ -40,7 +40,7 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
     ),
 )
 def test_day2_line_is_possible(line, bag, expected):
-    assert Game(line).possible_with(bag)
+    assert bag.satisfies(Game(line)) is expected
 
 @pytest.mark.parametrize(
         "game_input, bag, expected", (
@@ -51,6 +51,6 @@ def test_day2_id_sum(game_input, bag, expected):
     ids = []
     for line in game_input.splitlines():
         game = Game(line)
-        if game.is_possible_with(bag):
-            ids.append(game.id)
+        if bag.satisfies(game):
+            ids.append(int(game.id))
     assert sum(ids) == expected
