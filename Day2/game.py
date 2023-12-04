@@ -1,34 +1,35 @@
 from dataclasses import dataclass
 
+class Round:
+    def __init__(self, round_spec: str):
+        self.red = 0
+        self.green = 0
+        self.blue = 0
+
+        for section in round_spec.split(","):
+            num, colour = section.strip().split()
+            assert colour in ("red", "green", "blue")
+            setattr(self, colour, int(num))
+
+class Game:
+    def __init__(self, game_spec: str):
+        self.rounds = []
+        game_info, round_info = game_spec.split(":")
+        _, self.id = game_info.strip().split()
+        self.rounds = [Round(round_spec) for round_spec in round_info.split(";")]
+        self.min_red = max([round.red for round in self.rounds])
+        self.min_green = max([round.green for round in self.rounds])
+        self.min_blue = max([round.blue for round in self.rounds])
+
 @dataclass
 class Bag:
     red: int
     green: int
     blue: int
     
-class Bag:
-    def __init__(self, red: int, blue: int, green: int):
-        self.red = red
-        self.blue = blue
-        self.green = green
-
-    def is_possible(self, game: Game) -> bool:
+    def satisfies(self, game: Game) -> bool:
           return (
-             red <= game.min_red and
-             blue <= game.min_blue and
-             green <= game.min_green
+             self.red >= game.min_red and
+             self.blue >= game.min_blue and
+             self.green >= game.min_green
          )
-
-class Game:
-    def __init__(self, game_spec: str):
-        self.rounds = []
-        game_info, round_info = line.split(":")
-        _, self.id = game_info.strip().split()
-        self.rounds = [Round(round_spec) for round_spec in round_info.split(";")
-
-class Round:
-    def __init__(self, round_spec: str):
-        for section in round_spec.split(","):
-            num, colour = section.strip().split()
-            assert colour in ("red", "green", "blue")
-            set_attr(self, colour, int(num))
