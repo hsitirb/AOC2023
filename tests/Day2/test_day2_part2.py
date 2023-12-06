@@ -9,7 +9,7 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 """
 
 @pytest.mark.parametrize(
-    "line, min_bag",
+    "line, bag",
     (
         (
             "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
@@ -37,7 +37,7 @@ def test_min_bag(line, bag):
     assert Game(line).min_bag() == bag
 
 @pytest.mark.parametrize(
-    "line, power",
+    "line, expected",
     (
         (
             "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
@@ -66,7 +66,9 @@ def test_power(line, expected):
 
 @pytest.mark.parametrize(
     "game_input, expected",
-    (game_input, 2286),
+    (
+        (game_input, 2286),
+    ),
 )
 def test_result(game_input, expected):
     powers = [Game(line).power() for line in game_input.splitlines()]

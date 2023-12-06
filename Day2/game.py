@@ -23,6 +23,8 @@ class Game:
         self.min_green = max([round.green for round in self.rounds])
         self.min_blue = max([round.blue for round in self.rounds])
 
+    def min_bag(self):
+        ...
 
 @dataclass
 class Bag:
