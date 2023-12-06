@@ -35,18 +35,31 @@ class Schematic:
                         state = "partno"
                         partno = symbol
                         start_col = col
-            for symbol_loc in schematic_symbols:
-                for offset in (
-                    # fmt: off
-                    Loc(-1, -1), Loc( 0, -1), Loc( 1, -1),
-                    Loc(-1,  0),              Loc( 1,  0),
-                    Loc(-1,  1), Loc( 0,  1), Loc( 1,  1)
-                    # fmt: on
-                ):
-                    offset_symbol_loc = symbol_loc + offset
-                    if offset_symbol_loc in schematic_part_nos:
-                        self.valid_partnos.add(int(schematic_part_nos[offset_symbol_loc]))
+            if state == "partno":
+                for loc_col in range(start_col, start_col + len(partno)):
+                    schematic_part_nos[Loc(row, loc_col)] = partno
+                state = None
+                partno = None
+                start_col = None
+        for symbol_loc in schematic_symbols:
+            for offset in (
+                # fmt: off
+                Loc(-1, -1), Loc( 0, -1), Loc( 1, -1),
+                Loc(-1,  0),              Loc( 1,  0),
+                Loc(-1,  1), Loc( 0,  1), Loc( 1,  1)
+                # fmt: on
+            ):
+                offset_symbol_loc = symbol_loc + offset
+                if offset_symbol_loc in schematic_part_nos:
+                    self.valid_partnos.add(int(schematic_part_nos[offset_symbol_loc]))
 
     @property
     def parts_list(self):
         return list(self.valid_partnos)
+
+if __name__ == "__main__":
+    with open("Day3/puzzle_input.txt") as f:
+        test_input = f.read()
+    parts_list = Schematic(test_input).parts_list
+    print(parts_list)
+    print(sum(Schematic(test_input).parts_list))
