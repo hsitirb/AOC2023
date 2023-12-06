@@ -34,6 +34,20 @@ min_input_B = """....@....
 min_input_BR = """.....@...
 ......123
 """
+
+
+med_input_1 = (
+    """123..456.
+....*....
+.789.....""",
+    set([456, 789])
+)
+med_input_2 = (""".123.456.
+....*....
+......789""",
+    set([123, 456])
+)
+
 @pytest.mark.parametrize(
         "test_input, expected",
         (
@@ -47,6 +61,8 @@ min_input_BR = """.....@...
             (min_input_BL, set([123])),
             (min_input_B, set([123])),
             (min_input_BR, set([123])),
+            med_input_1,
+            med_input_2
         )
 )
 def test_part_number_list(test_input, expected):

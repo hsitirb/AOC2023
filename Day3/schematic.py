@@ -14,15 +14,20 @@ class Loc:
 class Schematic:
     def __init__(self, schematic: str):
         schematic_part_nos = {}
+        schematic_part_no_locs = {}
+        partno_id = 0
         schematic_symbols = []
-        self.valid_partnos = set()
+        valid_partno_ids = set()
         for row, line in enumerate(schematic.splitlines()):
             state = None
+            start_col, partno = None, None
             for col, symbol in enumerate(line):
                 if state == "partno":
                     if not symbol.isnumeric():
                         for loc_col in range(start_col, col):
-                            schematic_part_nos[Loc(row, loc_col)] = partno
+                            schematic_part_no_locs[Loc(row, loc_col)] = partno_id
+                        schematic_part_nos[partno_id] = partno
+                        partno_id += 1
                         state = None
                         partno = None
                         start_col = None
@@ -37,7 +42,9 @@ class Schematic:
                         start_col = col
             if state == "partno":
                 for loc_col in range(start_col, start_col + len(partno)):
-                    schematic_part_nos[Loc(row, loc_col)] = partno
+                    schematic_part_no_locs[Loc(row, loc_col)] = partno_id
+                schematic_part_nos[partno_id] = partno
+                partno_id += 1
                 state = None
                 partno = None
                 start_col = None
@@ -50,8 +57,9 @@ class Schematic:
                 # fmt: on
             ):
                 offset_symbol_loc = symbol_loc + offset
-                if offset_symbol_loc in schematic_part_nos:
-                    self.valid_partnos.add(int(schematic_part_nos[offset_symbol_loc]))
+                if offset_symbol_loc in schematic_part_no_locs:
+                    valid_partno_ids.add(schematic_part_no_locs[offset_symbol_loc])
+        self.valid_partnos = [int(schematic_part_nos[entry]) for entry in valid_partno_ids]
 
     @property
     def parts_list(self):
