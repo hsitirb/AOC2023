@@ -12,8 +12,8 @@ test_input = """467..114..
 ...$.*....
 .664.598.."""
 
-def test_part_number_list(test_input):
+def test_part_number_list():
     assert set(Schematic(test_input).parts_list) == set("467", "35", "633", "617", "592", "755", "664", "598")
 
-def test_part_number_sum(test_input):
+def test_part_number_sum():
     assert sum(Schematic(test_input)) == 4361
