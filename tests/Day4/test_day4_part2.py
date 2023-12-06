@@ -15,17 +15,22 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"""
         )
 )
 def test_card_total(test_input, expected):
-    assert CardSet(test_input).count == expected
+    cardset = CardSet(test_input)
+    cardset.process_cards()
+    assert cardset.total_cards() == expected
 
 @pytest.mark.parametrize(
-        "test_input, card, expected",
+    "test_input, card, expected",
+    (
         (test_input, 1, 1),
         (test_input, 2, 2),
         (test_input, 3, 4),
         (test_input, 4, 8),
         (test_input, 5, 14),
         (test_input, 6, 1),
+    )
 )
 def test_card_counts(test_input, card, expected):
     cardset = CardSet(test_input)
-    assert cardset.get_card(card).count == expected
+    cardset.process_cards()
+    assert cardset.get_card(card).copies == expected
