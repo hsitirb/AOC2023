@@ -91,6 +91,8 @@ class Schematic:
 if __name__ == "__main__":
     with open("Day3/puzzle_input.txt") as f:
         test_input = f.read()
-    parts_list = Schematic(test_input).parts_list
-    print(parts_list)
-    print(sum(Schematic(test_input).parts_list))
+    schematic = Schematic(test_input)
+    parts_list = schematic.parts_list
+    print(f"{sum(parts_list) = }")
+    gear_ratios = schematic.gear_ratios
+    print(f"{sum(gear_ratios) = }")
