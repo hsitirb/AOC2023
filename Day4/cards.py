@@ -12,3 +12,9 @@ class Card:
             return 0
         else:
             return 2 ** (len(match_set) - 1) 
+
+if __name__ == "__main__":
+    with open("Day4/puzzle_input.txt") as f:
+        test_input = f.read()
+    card_values = [Card(line).value for line in test_input.splitlines()]
+    print(f"{sum(card_values) = }")
