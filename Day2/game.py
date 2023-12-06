@@ -52,4 +52,6 @@ if __name__ == "__main__":
         game = Game(line)
         if bag.satisfies(game):
             ids.append(int(game.id))
-    print(sum(ids))
+    print(f"Sum IDS: {sum(ids)}")
+    powers = [Game(line).power() for line in game_input.splitlines()]
+    print(f"Sum Powers: {sum(powers)}")
