@@ -60,3 +60,6 @@ if __name__ == "__main__":
         test_input = f.read()
     card_values = [Card(line).value for line in test_input.splitlines()]
     print(f"{sum(card_values) = }")
+    cardset = CardSet(test_input)
+    cardset.process_cards()
+    print(f"{cardset.total_cards() = }")
