@@ -1,5 +1,45 @@
 class Almanac:
-    ...
+    def __init__(self, spec):
+        state = None
+        self.tables = {}
+        for line in spec.splitlines():
+            if state is None:
+                if line.startswith("seeds"):
+                    _, seed_spec = line.split(":")
+                    self.seeds = map(int, seed_spec.split())
+                    state = "table_search"
+            elif state == "table_search":
+                if line == "":
+                    state = "table"
+                    table_lines = ""
+            elif state == "table":
+                if line == "":
+                    table = AlmanacTable(table_lines)
+                    self.tables[table.source_name] = table                    
+                    table_lines = ""
+                else:
+                    table_lines += line + "\n"
+        table = AlmanacTable(table_lines)
+        self.tables[table.source_name] = table
+        print()
+
+    def get_table(self, src_name):
+        return self.tables[src_name]
+
+    def get_location(self, seed):
+        table_name = "seed"
+        dest_val = seed 
+        while table_name != "location":
+            table = self.get_table(table_name)
+            dest_val = table.get(dest_val)
+            table_name = table.dest_name
+        return dest_val
+
+    def get_closest_location(self):
+        locations = [self.get_location(seed) for seed in self.seeds]
+        locations.sort()
+        return locations[0]
+
 
 class AlmanacTable:
     def __init__(self, spec):
