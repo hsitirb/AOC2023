@@ -11,8 +11,8 @@ class BoatRace:
         lines = spec.splitlines()
         _, time_line = lines[0].split(":")
         _, dist_line = lines[1].split(":")
-        times = [*map(int, time_line.split())]
-        dists = [*map(int, dist_line.split())]
+        times = [int(''.join(time_line.split()))]
+        dists = [int(''.join(dist_line.split()))]
         self.races = [Race(time, dist) for time, dist in zip(times, dists)]
     
     def current_best_dist(self, race_no):
