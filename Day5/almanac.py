@@ -44,7 +44,7 @@ class Almanac:
                 location = self.get_location(seed)
                 if min_location is None or location < min_location:
                     min_location = location
-        return location
+        return min_location
 
 
 class AlmanacTable:
