@@ -9,8 +9,7 @@ class Almanac:
                     _, seed_spec = line.split(":")
                     seeds_entry = [*map(int, seed_spec.split())]
                     for seed, rng in zip(seeds_entry[0::2], seeds_entry[1::2]):
-                        for offset in range(rng):
-                            self.seeds.append(seed + offset)
+                        self.seeds.append(range(seed, seed + rng))
                     state = "table_search"
             elif state == "table_search":
                 if line == "":
@@ -25,7 +24,6 @@ class Almanac:
                     table_lines += line + "\n"
         table = AlmanacTable(table_lines)
         self.tables[table.source_name] = table
-        print()
 
     def get_table(self, src_name):
         return self.tables[src_name]
@@ -40,9 +38,13 @@ class Almanac:
         return dest_val
 
     def get_closest_location(self):
-        locations = [self.get_location(seed) for seed in self.seeds]
-        locations.sort()
-        return locations[0]
+        min_location = None
+        for seed_rng in self.seeds:
+            for seed in seed_rng:
+                location = self.get_location(seed)
+                if min_location is None or location < min_location:
+                    min_location = location
+        return location
 
 
 class AlmanacTable:
