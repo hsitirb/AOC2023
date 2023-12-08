@@ -38,7 +38,7 @@ humidity-to-location map:
 @pytest.mark.parametrize(
         "test_input, expected",
         (
-            (test_input, 46)
+            (test_input, 46),
         )
 )
 def test_solution(test_input, expected):
