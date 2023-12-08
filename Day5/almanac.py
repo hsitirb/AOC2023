@@ -62,3 +62,9 @@ class AlmanacTable:
                 dst_val = dst_rng[0] + (src_val - src_rng[0])
                 break
         return dst_val
+
+if __name__ == "__main__":
+    with open("Day5/puzzle_input.txt") as f:
+        test_input = f.read()
+    almanac = Almanac(test_input)
+    print(f"{almanac.get_closest_location() = }")
