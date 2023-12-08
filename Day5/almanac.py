@@ -2,11 +2,15 @@ class Almanac:
     def __init__(self, spec):
         state = None
         self.tables = {}
+        self.seeds = []
         for line in spec.splitlines():
             if state is None:
                 if line.startswith("seeds"):
                     _, seed_spec = line.split(":")
-                    self.seeds = map(int, seed_spec.split())
+                    seeds_entry = [*map(int, seed_spec.split())]
+                    for seed, rng in zip(seeds_entry[0::2], seeds_entry[1::2]):
+                        for offset in range(rng):
+                            self.seeds.append(seed + offset)
                     state = "table_search"
             elif state == "table_search":
                 if line == "":
