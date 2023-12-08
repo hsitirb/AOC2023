@@ -20,7 +20,7 @@ def test_solution(test_input, expected):
     (
         (test_input, 1, 4),
         (test_input, 2, 8),
-        (test_input, 3, 11),
+        (test_input, 3, 9),
     ),
 )
 def test_race_wins(race_spec, race_no, expected):
