@@ -35,3 +35,8 @@ class BoatRace:
         ]
         return prod(wins)
 
+if __name__ == "__main__":
+    with open("Day6/puzzle_input.txt") as f:
+        spec = f.read()
+    br = BoatRace(spec)
+    print(f"{br.calculate_best() = }")
