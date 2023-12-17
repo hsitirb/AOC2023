@@ -1,5 +1,5 @@
 import pytest
-from Day7.camel_cards import CamelCards, Type
+from Day7.camel_cards import CamelCards, Type, Hand
 
 test_input = """32T3K 765
 T55J5 684
@@ -32,3 +32,5 @@ def test_total_winnings(hand_spec, expected):
         ("QQQJA", Type.THREE_OF_A_KIND),
     )
 )
+def test_hand_type(hand, hand_type):
+    assert Hand(hand, 1).type == hand_type
