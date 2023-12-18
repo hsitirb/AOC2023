@@ -34,3 +34,32 @@ def test_total_winnings(hand_spec, expected):
 )
 def test_hand_type(hand, hand_type):
     assert Hand(hand, 1).type == hand_type
+
+@pytest.mark.parametrize(
+        "hands, ranking",
+        (
+            (
+                ["32T3K", "T55J5", "KK677", "KTJJT", "QQQJA"],
+                ["32T3K", "KTJJT", "KK677", "T55J5", "QQQJA"],
+            ),
+        )
+)
+def test_rank(hands, ranking):
+    cc = CamelCards()
+    cc.hands = [Hand(hand) for hand in hands]
+    assert cc.sort() == [Hand(hand) for hand in ranking]
+
+@pytest.mark.parametrize(
+        "hand1, hand2, ranking",
+        (
+            ("32T3K", "T55J5", ["32T3K", "T55J5"]),
+            ("KK677", "KTJJT", ["KTJJT", "KK677"]),
+            ("T55J5", "QQQJA", ["T55J5", "QQQJA"]),
+        )
+)
+def test_rank_pair(hand1, hand2, ranking):
+    cc = CamelCards()
+    cc.hands = [Hand(hand1), Hand(hand2)]
+    assert cc.sort() == [Hand(hand) for hand in ranking]
+
+    
