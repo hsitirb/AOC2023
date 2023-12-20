@@ -2,7 +2,15 @@ from dataclasses import dataclass
 from enum import Enum
 
 Card = Enum("Card", ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"])
-Type = Enum("Type", ["FIVE_OF_A_KIND", "FOUR_OF_A_KIND", "FULL_HOUSE", "THREE_OF_A_KIND", "TWO_PAIR", "ONE_PAIR", "HIGH_CARD"])
+Type = Enum("Type", [
+    "HIGH_CARD",
+    "ONE_PAIR",
+    "TWO_PAIR",
+    "THREE_OF_A_KIND",
+    "FULL_HOUSE",
+    "FOUR_OF_A_KIND",
+    "FIVE_OF_A_KIND",
+])
 
 
 @dataclass
@@ -38,6 +46,9 @@ class Hand:
     def is_high_card(self):
         return sum([self.hand.count(self.hand[idx]) for idx in range(len(self.hand))]) == 5
 
+    def __eq__(self, other: object) -> bool:
+        return self.hand == other.hand
+
     @property
     def type(self):
         typedict = {
@@ -53,12 +64,23 @@ class Hand:
             if determiner(self):
                 return hand_type
 
+    def card_values(self):
+        return [Card[card].value for card in self.hand]
+
 class CamelCards:
-    def __init__(self, spec):
+    def __init__(self, spec=None):
         self.hands = []
-        for line in spec.splitlines():
-            hand, bid = line.split()
-            self.hands.append(Hand(hand, int(bid)))
+        if spec:
+            for line in spec.splitlines():
+                hand, bid = line.split()
+                self.hands.append(Hand(hand, int(bid)))
+
+    def sorted(self):
+        return sorted(self.hands, key=lambda x: (x.type.value, x.card_values()), reverse=False)
             
     def total_winnings(self):
-        return 0
+        sorted_hands = self.sorted()
+        winnings = 0
+        for index, bid in enumerate((x.bid for x in sorted_hands), 1):
+            winnings += index * bid
+        return winnings

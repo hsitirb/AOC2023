@@ -46,8 +46,8 @@ def test_hand_type(hand, hand_type):
 )
 def test_rank(hands, ranking):
     cc = CamelCards()
-    cc.hands = [Hand(hand) for hand in hands]
-    assert cc.sort() == [Hand(hand) for hand in ranking]
+    cc.hands = [Hand(hand, 0) for hand in hands]
+    assert cc.sorted() == [Hand(hand, 0) for hand in ranking]
 
 @pytest.mark.parametrize(
         "hand1, hand2, ranking",
@@ -59,7 +59,7 @@ def test_rank(hands, ranking):
 )
 def test_rank_pair(hand1, hand2, ranking):
     cc = CamelCards()
-    cc.hands = [Hand(hand1), Hand(hand2)]
-    assert cc.sort() == [Hand(hand) for hand in ranking]
+    cc.hands = [Hand(hand1, 0), Hand(hand2, 0)]
+    assert cc.sorted() == [Hand(hand, 0) for hand in ranking]
 
     
