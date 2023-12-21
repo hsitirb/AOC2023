@@ -84,3 +84,9 @@ class CamelCards:
         for index, bid in enumerate((x.bid for x in sorted_hands), 1):
             winnings += index * bid
         return winnings
+
+if __name__ == "__main__":
+    with open("Day7/puzzle_input.txt") as f:
+        spec = f.read()
+    cc = CamelCards(spec)
+    print(f"{cc.total_winnings() = }")
