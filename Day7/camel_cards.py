@@ -12,11 +12,9 @@ Type = Enum("Type", [
     "FIVE_OF_A_KIND",
 ])
 
-
 @dataclass
 class Hand:
     hand: str
-    bid: int
 
     def is_five_of_a_kind(self):
         return all(Card[self.hand[0]] == Card[card] for card in self.hand)
@@ -67,13 +65,19 @@ class Hand:
     def card_values(self):
         return [Card[card].value for card in self.hand]
 
+class BidHand(Hand):
+    def __init__(self, hand, bid):
+        self.bid = bid
+        self.hand = hand
+
+
 class CamelCards:
     def __init__(self, spec=None):
         self.hands = []
         if spec:
             for line in spec.splitlines():
                 hand, bid = line.split()
-                self.hands.append(Hand(hand, int(bid)))
+                self.hands.append(BidHand(hand, int(bid)))
 
     def sorted(self):
         return sorted(self.hands, key=lambda x: (x.type.value, x.card_values()), reverse=False)
